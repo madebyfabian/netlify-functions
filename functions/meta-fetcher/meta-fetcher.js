@@ -5,7 +5,7 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
   /* Required for cookies, authorization headers with HTTPS */
   'Access-Control-Allow-Credentials': true
-},
+}
 
 const handler = async function ( event, context ) {
   try {
