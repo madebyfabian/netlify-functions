@@ -1,0 +1,23 @@
+{
+  "name": "netlify-functions",
+  "version": "1.0.0",
+  "description": "Collection of netlify functions i use",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madebyfabian/netlify-functions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madebyfabian/netlify-functions/issues"
+  },
+  "homepage": "https://github.com/madebyfabian/netlify-functions#readme",
+  "dependencies": {
+    "meta-fetcher": "^3.1.1"
+  }
+}
