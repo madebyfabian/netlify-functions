@@ -1,5 +1,12 @@
 const metaFetcher = require('meta-fetcher')
 
+const headers = {
+  /* Required for CORS support to work */
+  'Access-Control-Allow-Origin': '*',
+  /* Required for cookies, authorization headers with HTTPS */
+  'Access-Control-Allow-Credentials': true
+},
+
 const handler = async function ( event, context ) {
   try {
     const qs = event.queryStringParameters
@@ -8,20 +15,13 @@ const handler = async function ( event, context ) {
 
     const response = await metaFetcher(qs.url)
     if (!response) 
-      return { statusCode: response.status, body: response.statusText }
+      return { statusCode: response.status, headers, body: response.statusText }
     
-    return {
-      statusCode: 200,
-      body: JSON.stringify(response),
-    }
+    return { statusCode: 200, headers, body: JSON.stringify(response) }
   } catch (error) {
     // output to netlify function log
     console.log(error)
-    return {
-      statusCode: 500,
-      // Could be a custom message or object i.e. JSON.stringify(err)
-      body: JSON.stringify({ msg: error.message }),
-    }
+    return { statusCode: 500, headers, body: JSON.stringify({ msg: error.message }) }
   }
 }
 
