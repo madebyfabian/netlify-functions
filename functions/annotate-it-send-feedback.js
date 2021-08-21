@@ -45,7 +45,10 @@ exports.handler = async ( event, context ) => {
         SandboxMode: false,
         Messages: [{
           From: { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' },
-          To: [{ Email: ANNOTATE_IT_MJ_EMAIL_RECIEVER, Name: 'Annotate it! Feedback' }],
+          To: [
+            { Email: ANNOTATE_IT_MJ_EMAIL_RECIEVER, Name: 'Annotate it! Feedback' },
+            { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' } // Also send it to myself.
+          ],
           Subject: 'New Feedback for Annotate it! Figma Plugin',
           HTMLPart: data.template
         }]
