@@ -28,10 +28,7 @@ exports.handler = async ( event, context ) => {
   } catch (error) {
     return buildRes(400, 'Please provide body')
   }
-
-  if (!data.template)
-    return buildRes(400, 'Please provide a "template" field in the body.')
-
+  
   try {
     const config = {
       method: 'POST',
@@ -39,9 +36,9 @@ exports.handler = async ( event, context ) => {
       params: {
         name: 'New Feedback',
         desc: 
-          `Name: ${this.feedbackData.name || 'Unknown'}\n` +
-          `Email: ${this.feedbackData.email || 'Unknown'}\n` +
-          `Feedback: ${this.feedbackData.message || '–'}\n`,
+          `Name: ${data.name || 'Unknown'}\n` +
+          `Email: ${data.email || 'Unknown'}\n` +
+          `Feedback: ${data.message || '–'}\n`,
         key: TRELLO_AUTH_KEY,
         token: TRELLO_AUTH_TOKEN,
         idList: TRELLO_ID_OF_LIST,
