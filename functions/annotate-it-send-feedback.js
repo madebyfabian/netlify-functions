@@ -11,11 +11,18 @@ const buildRes = ( statusCode = 200, body = 'Success.', headers = {} ) => ({
 
 
 // Config env variables
+/*
 const { 
   ANNOTATE_IT_MJ_APIKEY_PRIVATE, 
   ANNOTATE_IT_MJ_APIKEY_PUBLIC, 
   ANNOTATE_IT_MJ_EMAIL_SENDER, 
   ANNOTATE_IT_MJ_EMAIL_RECIEVER 
+} = process.env*/
+
+const {
+  TRELLO_AUTH_KEY,
+  TRELLO_AUTH_TOKEN,
+  TRELLO_ID_OF_LIST
 } = process.env
 
 
@@ -34,7 +41,7 @@ exports.handler = async ( event, context ) => {
     return buildRes(400, 'Please provide a "template" field in the body.')
 
   try {
-    const config = {
+    /*const config = {
       method: 'POST',
       url: 'https://api.mailjet.com/v3.1/send',
       auth: {
@@ -57,6 +64,21 @@ exports.handler = async ( event, context ) => {
       }
     }
           
+    await axios(config)*/
+
+
+    const config = {
+      method: 'POST',
+      url: 'https://api.trello.com/1/cards',
+      params: {
+        name: 'New Feedback',
+        desc: data.template,
+        key: TRELLO_AUTH_KEY,
+        token: TRELLO_AUTH_TOKEN,
+        idList: TRELLO_ID_OF_LIST,
+      },
+    }
+
     await axios(config)
 
     return buildRes(200)
