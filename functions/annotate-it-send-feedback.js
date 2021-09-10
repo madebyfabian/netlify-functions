@@ -34,7 +34,7 @@ exports.handler = async ( event, context ) => {
       method: 'POST',
       url: 'https://api.trello.com/1/cards',
       params: {
-        name: 'New Feedback',
+        name: `Feedback from ${ data.name || data.email || 'Unknown' }`,
         desc: 
           `**Name**: ${data.name || 'Unknown'}\n` +
           `**Email**: ${data.email || 'Unknown'}\n` +
