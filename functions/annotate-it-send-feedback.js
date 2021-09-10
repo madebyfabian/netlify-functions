@@ -11,14 +11,6 @@ const buildRes = ( statusCode = 200, body = 'Success.', headers = {} ) => ({
 
 
 // Config env variables
-/*
-const { 
-  ANNOTATE_IT_MJ_APIKEY_PRIVATE, 
-  ANNOTATE_IT_MJ_APIKEY_PUBLIC, 
-  ANNOTATE_IT_MJ_EMAIL_SENDER, 
-  ANNOTATE_IT_MJ_EMAIL_RECIEVER 
-} = process.env*/
-
 const {
   TRELLO_AUTH_KEY,
   TRELLO_AUTH_TOKEN,
@@ -41,41 +33,19 @@ exports.handler = async ( event, context ) => {
     return buildRes(400, 'Please provide a "template" field in the body.')
 
   try {
-    /*const config = {
-      method: 'POST',
-      url: 'https://api.mailjet.com/v3.1/send',
-      auth: {
-        username: ANNOTATE_IT_MJ_APIKEY_PUBLIC,
-        password: ANNOTATE_IT_MJ_APIKEY_PRIVATE
-      },
-      data: {
-        SandboxMode: false,
-        Messages: [{
-          From: { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' },
-          To: [
-            { Email: ANNOTATE_IT_MJ_EMAIL_RECIEVER, Name: 'Annotate it! Feedback' },
-          ],
-          Bcc: [
-            { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' } // Also send it to myself.
-          ],
-          Subject: 'New Feedback for Annotate it! Figma Plugin',
-          HTMLPart: data.template
-        }]
-      }
-    }
-          
-    await axios(config)*/
-
-
     const config = {
       method: 'POST',
       url: 'https://api.trello.com/1/cards',
       params: {
         name: 'New Feedback',
-        desc: data.template,
+        desc: 
+          `Name: ${this.feedbackData.name || 'Unknown'}\n` +
+          `Email: ${this.feedbackData.email || 'Unknown'}\n` +
+          `Feedback: ${this.feedbackData.message || '–'}\n`,
         key: TRELLO_AUTH_KEY,
         token: TRELLO_AUTH_TOKEN,
         idList: TRELLO_ID_OF_LIST,
+        pos: 'top'
       },
     }
 
