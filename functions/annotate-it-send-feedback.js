@@ -36,9 +36,9 @@ exports.handler = async ( event, context ) => {
       params: {
         name: 'New Feedback',
         desc: 
-          `Name: ${data.name || 'Unknown'}\n` +
-          `Email: ${data.email || 'Unknown'}\n` +
-          `Feedback: ${data.message || '–'}\n`,
+          `**Name**: ${data.name || 'Unknown'}\n` +
+          `**Email**: ${data.email || 'Unknown'}\n` +
+          `**Feedback**: \n${data.message || '–'}\n`,
         key: TRELLO_AUTH_KEY,
         token: TRELLO_AUTH_TOKEN,
         idList: TRELLO_ID_OF_LIST,
