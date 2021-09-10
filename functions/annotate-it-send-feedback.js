@@ -11,10 +11,11 @@ const buildRes = ( statusCode = 200, body = 'Success.', headers = {} ) => ({
 
 
 // Config env variables
-const {
-  TRELLO_AUTH_KEY,
-  TRELLO_AUTH_TOKEN,
-  TRELLO_ID_OF_LIST
+const { 
+  ANNOTATE_IT_MJ_APIKEY_PRIVATE, 
+  ANNOTATE_IT_MJ_APIKEY_PUBLIC, 
+  ANNOTATE_IT_MJ_EMAIL_SENDER, 
+  ANNOTATE_IT_MJ_EMAIL_RECIEVER 
 } = process.env
 
 
@@ -28,24 +29,33 @@ exports.handler = async ( event, context ) => {
   } catch (error) {
     return buildRes(400, 'Please provide body')
   }
-  
+
   try {
     const config = {
       method: 'POST',
-      url: 'https://api.trello.com/1/cards',
-      params: {
-        name: `Feedback from ${ data.name || data.email || 'Unknown' }`,
-        desc: 
-          `**Name**: ${data.name || 'Unknown'}\n` +
-          `**Email**: ${data.email || 'Unknown'}\n` +
-          `**Feedback**: \n${data.message || '–'}\n`,
-        key: TRELLO_AUTH_KEY,
-        token: TRELLO_AUTH_TOKEN,
-        idList: TRELLO_ID_OF_LIST,
-        pos: 'top'
+      url: 'https://api.mailjet.com/v3.1/send',
+      auth: {
+        username: ANNOTATE_IT_MJ_APIKEY_PUBLIC,
+        password: ANNOTATE_IT_MJ_APIKEY_PRIVATE
       },
+      data: {
+        SandboxMode: false,
+        Messages: [{
+          From: { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' },
+          To: [{ Email: ANNOTATE_IT_MJ_EMAIL_RECIEVER, Name: 'Annotate it! Feedback' }],
+          Bcc: [{ Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' }],
+          Subject: 'New Feedback for Annotate it! Figma Plugin',
+          HTMLPart: `
+            <table>
+              <tr><td style="width: 90px;"><b>Name</b></td><td>${data.name || 'Unknown'}</td></tr>
+              <tr><td style=""><b>E-Mail</b></td><td>${data.email || 'Unknown'}</td></tr>
+              <tr><td style="vertical-align: top"><b>Feedback</b></td><td>${data.message.replace(/(?:\r\n|\r|\n)/g, '<br>')}</td></tr>
+            </table>
+          `
+        }]
+      }
     }
-
+          
     await axios(config)
 
     return buildRes(200)
