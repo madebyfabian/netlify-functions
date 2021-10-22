@@ -1,5 +1,5 @@
 const metaFetcher = require('meta-fetcher')
-const pTimeout = require('p-timeout')
+const pt = require('promise-timeout')
 
 const headers = {
   /* Required for CORS support to work */
@@ -16,7 +16,7 @@ const handler = async function ( event, context ) {
 
     const metaFetcherPromise = metaFetcher(qs.url)
 
-    const response = await pTimeout(metaFetcherPromise, 8500)
+    const response = await pt.timeout(metaFetcherPromise, 8500)
     if (!response) 
       return { statusCode: response.status, headers, body: response.statusText }
     
