@@ -19,6 +19,7 @@
   "homepage": "https://github.com/madebyfabian/netlify-functions#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "meta-fetcher": "^3.1.1"
+    "meta-fetcher": "^3.1.1",
+    "p-timeout": "^5.0.1"
   }
 }
