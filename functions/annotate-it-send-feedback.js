@@ -43,7 +43,6 @@ exports.handler = async ( event, context ) => {
         Messages: [{
           From: { Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' },
           To: [{ Email: ANNOTATE_IT_MJ_EMAIL_RECIEVER, Name: 'Annotate it! Feedback' }],
-          Bcc: [{ Email: ANNOTATE_IT_MJ_EMAIL_SENDER, Name: 'Annotate it! Feedback' }],
           Subject: 'New Feedback for Annotate it! Figma Plugin',
           HTMLPart: `
             <table>
